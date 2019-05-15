@@ -104,11 +104,18 @@ class Hangman:
 			return True
 
 	# Método para não mostrar a letra no board
-	def hide_word(self):
-		blank_space = ('_ '*len(self.word))
-		if self.word.index(self.letter)
-		
+	def hide_word(self, space =['']):
+		self.space = (['_ ']*len(self.word))
+		if self.letter in self.word:
+			if self.word.count(self.letter) > 1:
 				
+
+
+		for right_letter in self.right_guesses:
+			self.space[self.word.index(right_letter)] = right_letter
+		print(tuple(self.space))
+		
+		
 		
 		
 	# Método para checar o status do game e imprimir o board na tela
@@ -151,6 +158,7 @@ def main():
 
         # Verifica o status do jogo
         game.print_game_status()
+        game.hide_word()
   #      game.hide_word()
 
         # De acordo com o status, imprime mensagem na tela para o usuário
