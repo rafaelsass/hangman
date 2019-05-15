@@ -78,7 +78,7 @@ class Hangman:
 	# Método para adivinhar a letra
 	def guess(self, letter=''):
 		while True:
-			self.letter = input("guess a letter: ")
+			self.letter = input("guess a letter: ").lower()
 			if len(self.letter) == 1 and self.letter.isalpha():
 				break
 			print("Enter a valid character")
@@ -88,6 +88,14 @@ class Hangman:
 		
 	# Método para verificar se o jogo terminou
 	def hangman_over(self):
+	    if self.hangman_won():
+	        return True
+	    else:
+	        try:
+	            board[len(self.wrong_guesses)]
+	            return False
+	        except IndexError:
+	            return True
 		
 		
 	# Método para verificar se o jogador venceu
@@ -97,61 +105,64 @@ class Hangman:
 
 	# Método para não mostrar a letra no board
 	def hide_word(self):
+		blank_space = ('_ '*len(self.word))
+		if self.word.index(self.letter)
+		
+				
 		
 		
 	# Método para checar o status do game e imprimir o board na tela
 	def print_game_status(self, right_guesses=[], wrong_guesses=[]):
-		self.right_guesses = right_guesses
-		self.wrong_guesses = wrong_guesses
-		while True:
-			if all([self.letter in self.word, self.letter not in self.right_guesses,
-					self.letter not in self.wrong_guesses]):
-				self.right_guesses.append(self.letter)
-				break
-			elif all([self.letter not in self.word, self.letter not in self.right_guesses,
-					  self.letter not in self.wrong_guesses]):
-				self.wrong_guesses.append(self.letter)
-				break
-			else:
-				print("Enter a different character!")
-				self.guess()
-		try:
-			print(board[len(self.wrong_guesses)])
-		except IndexError:
-			pass
-		print("Right guesses: %s \nWrong guesses: %s" % (self.right_guesses, self.wrong_guesses))
-
-
-		
+	    self.right_guesses = right_guesses
+	    self.wrong_guesses = wrong_guesses
+	    while True:
+	        if all([self.letter in self.word, self.letter not in self.right_guesses,
+	                self.letter not in self.wrong_guesses]):
+	            self.right_guesses.append(self.letter)
+	            break
+	        elif all([self.letter not in self.word, self.letter not in self.right_guesses,
+	                  self.letter not in self.wrong_guesses]):
+	            self.wrong_guesses.append(self.letter)
+	            break
+	        else:
+	            print("Enter a different character!")
+	            self.guess()
+	    try:
+	        print(board[len(self.wrong_guesses)])
+	    except IndexError:
+	        pass
+	    print("Right guesses: %s \nWrong guesses: %s" % (self.right_guesses, self.wrong_guesses))
+	    print("tries left: %s \n" %(7-len(self.wrong_guesses)))
 
 # Função para ler uma palavra de forma aleatória do banco de palavras
 def rand_word():
         with open("palavras.txt", "rt") as f:
                 bank = f.readlines()
-        return bank[random.randint(0,len(bank))].strip()
+        return bank[random.randint(0,len(bank)-1)].strip()
 
 
 # Função Main - Execução do Programa
 def main():
-
     # Objeto
-	game = Hangman(rand_word())
+    game = Hangman(rand_word())
+    while True:
+        # Enquanto o jogo não tiver terminado, print do status, solicita uma letra e faz a leitura do caracter
+        game.guess()
 
-	while True:
-    	# Enquanto o jogo não tiver terminado, print do status, solicita uma letra e faz a leitura do caracter
-		game.guess()
+        # Verifica o status do jogo
+        game.print_game_status()
+  #      game.hide_word()
 
-		# Verifica o status do jogo
-		game.print_game_status()
-
-		# De acordo com o status, imprime mensagem na tela para o usuário
-		if game.hangman_won():
-			print ('\nParabéns! Você venceu!!')
-			print('\nFoi bom jogar com você! Agora vá estudar!\n')
-			break
-		else:
-			print ('\nGame over! Você perdeu.')
-			print ('A palavra era ' + game.word)
+        # De acordo com o status, imprime mensagem na tela para o usuário
+        if game.hangman_over():
+            if game.hangman_won():
+                print('\nParabéns! Você venceu!!')
+                print('\nFoi bom jogar com você! Agora vá estudar!\n')
+                
+            else:
+                print('\nGame over! Você perdeu.')
+                print('A palavra era ' + game.word)
+            break
 
 
 # Executa o programa		
